@@ -1,10 +1,10 @@
 from app.database import Base, engine
 
-Base.metadata.drop_all(bind=engine)
-Base.metadata.create_all(bind=engine)
-
 from app.database import SessionLocal
 from app.models import Profile, Project
+
+Base.metadata.drop_all(bind=engine)
+Base.metadata.create_all(bind=engine)
 
 db = SessionLocal()
 
