@@ -1,3 +1,10 @@
+from fastapi.staticfiles import StaticFiles
+from fastapi.responses import FileResponse
+import os
+
+
+
+
 from fastapi import FastAPI, Depends
 from sqlalchemy.orm import Session
 
@@ -11,6 +18,17 @@ from sqlalchemy import or_
 from collections import Counter
 
 app = FastAPI(title="Me-API Playground")
+
+
+
+# Serve static files from app/frontend
+app.mount("/frontend", StaticFiles(directory="app/frontend"), name="frontend")
+@app.get("/")
+def root():
+    return FileResponse(os.path.join("app/frontend", "index.html"))
+
+
+
 
 from fastapi.middleware.cors import CORSMiddleware
 
