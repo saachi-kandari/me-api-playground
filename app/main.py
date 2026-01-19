@@ -60,8 +60,8 @@ def auto_seed():
             name="Saachi Kandari",
             email="231210088@nitdelhi.ac.in",
             education=(
-                "National Institute of Technology, Delhi – B.Tech in Computer Science and Engineering, "
-                "Army Public School, Dhaula Kuan – 12th Grade: 94.2%, 10th Grade: 94.8%"
+                "National Institute of Technology, Delhi :- B.Tech in Computer Science and Engineering: 8.88 CGPA (upto 5th sem), "
+                "Army Public School, Dhaula Kuan :- 12th Grade: 94.2%, 10th Grade: 94.8%"
             ),
             github="https://github.com/saachi-kandari",
             linkedin="https://www.linkedin.com/in/saachi-k-0648b8288",
@@ -87,7 +87,7 @@ def auto_seed():
                     "Integrated Maps API for site mapping and implemented login/signup features. "
                     "Enabled archaeologists to log and retrieve site and artifact details efficiently."
                 ),
-                skills="PHP, MySQL, HTML, CSS, Maps API, Authentication"
+                skills="PHP, MySQL, HTML, CSS, Maps API, Authentication, JavaScript"
             ),
             Project(
                 title="Byte2Bite – Meal Management Platform",
@@ -112,7 +112,7 @@ def auto_seed():
                     "Contributed to a full-stack platform for an NGO to manage students, campaigns, donations, and admin workflows. "
                     "Built dashboards, chatbot interface, student data forms with voice input, and admin panel features."
                 ),
-                skills="MERN Stack, Dashboards, Admin Panel"
+                skills="CSS, MERN Stack, Dashboards, Admin Panel"
             )
         ]
         db.add_all(projects)
