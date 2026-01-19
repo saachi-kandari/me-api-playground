@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Me API Playground</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: #333;
+    }
+
+    .container {
+      background: #fff;
+      width: 90%;
+      max-width: 900px;
+      padding: 2rem;
+      border-radius: 16px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+    }
+
+    h1 {
+      margin-top: 0;
+      text-align: center;
+      color: #4a4a4a;
+    }
+
+    .section {
+      margin-top: 2rem;
+    }
+
+    .card {
+      background: #f7f8fc;
+      border-radius: 12px;
+      padding: 1.2rem;
+      margin-top: 1rem;
+      box-shadow: 0 8px 16px rgba(0,0,0,0.05);
+    }
+
+    .row {
+      margin-bottom: 0.6rem;
+    }
+
+    .label {
+      font-weight: 600;
+      color: #555;
+    }
+
+    .value a {
+      color: #667eea;
+      text-decoration: none;
+    }
+
+    .value a:hover {
+      text-decoration: underline;
+    }
+
+    .loading {
+      text-align: center;
+      color: #777;
+      font-style: italic;
+    }
+
+    .error {
+      color: #c0392b;
+      background: #fdecea;
+      padding: 1rem;
+      border-radius: 8px;
+      margin-top: 1rem;
+    }
+
+    
+    footer {
+      margin-top: 2rem;
+      text-align: center;
+      font-size: 0.9rem;
+      color: #888;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <h1>Me API Playground</h1>
+
+    <div class="section">
+      <h2>My Profile</h2>
+      <div id="profile" class="loading">Loading profile...</div>
+    </div>
+
+    <div class="section">
+    <h2>Search Projects</h2>
+
+    <input id="searchInput" placeholder="Search by title or description."
+            style="width:100%; padding:10px; border-radius:8px; border:1px solid #ccc;" />
+
+    <button onclick="searchProjects()"
+            style="margin-top:10px; padding:10px 16px; border:none; border-radius:8px;
+                    background:#667eea; color:white; cursor:pointer;">
+        Search
+    </button>
+    </div>
+
+
+    <div class="section">
+      <h2>Projects</h2>
+      <div id="projects" class="loading">Loading projects...</div>
+    </div>
+
+    <div class="section">
+  <h2>Top Skills</h2>
+  <div id="skills" class="loading">Loading skills...</div>
+</div>
+
+    <footer>
+      Built with FastAPI + SQLite 
+    </footer>
+  </div>
+
+  <script>
+    const backendUrl = "http://0.0.0.0:10000";
+    let allProjects = []; 
+
+    function renderProfile(data) {
+      return `
+        <div class="card">
+          <div class="row"><span class="label">Name:</span> ${data.name}</div>
+          <div class="row"><span class="label">Email:</span> ${data.email}</div>
+          <div class="row"><span class="label">Education:</span> ${data.education}</div>
+          <div class="row"><span class="label">GitHub:</span>
+            <span class="value"><a href="${data.github}" target="_blank">${data.github}</a></span>
+          </div>
+          <div class="row"><span class="label">LinkedIn:</span>
+            <span class="value"><a href="${data.linkedin}" target="_blank">${data.linkedin}</a></span>
+          </div>
+        </div>
+      `;
+    }
+
+    function renderProjects(projects) {
+      if (projects.length === 0) {
+        return `<div class="card">No projects found 🚧</div>`;
+      }
+
+      return projects.map(p => `
+        <div class="card">
+          <div class="row"><span class="label">Title:</span> <span class="value">${p.title}</span></div>
+          <div class="row"><span class="label">Description:</span> <span class="value">${p.description}</span></div>
+          <div class="row"><span class="label">Skills:</span> <span class="value">${p.skills}</span></div>
+        </div>
+      `).join("");
+    }
+
+function renderSkills(skills) {
+  const entries = Object.entries(skills);
+
+  if (entries.length === 0) {
+    return `<div class="card">No skills yet</div>`;
+  }
+
+  entries.sort((a, b) => b[1] - a[1]);
+
+  return `
+    <div class="card">
+      ${entries.map(([skill, count]) => `
+        <div class="row">
+          <span class="label">${skill}</span> — used in ${count} project(s)
+        </div>
+      `).join("")}
+    </div>
+  `;
+}
+
+
+function filterBySkill(skill) {
+  const filtered = allProjects.filter(p => 
+    p.skills.map(s => s.toLowerCase()).includes(skill.toLowerCase())
+  );
+  document.getElementById("projects").innerHTML = renderProjects(filtered);
+}
+
+    fetch(`${backendUrl}/profile`)
+      .then(res => res.json())
+      .then(data => {
+        document.getElementById("profile").innerHTML = renderProfile(data);
+      })
+      .catch(() => {
+        document.getElementById("profile").innerHTML =
+          `<div class="error">Failed to load profile </div>`;
+      });
+
+
+      fetch(`${backendUrl}/projects`)
+  .then(res => res.json())
+  .then(data => {
+    allProjects = data; 
+    document.getElementById("projects").innerHTML = renderProjects(data);
+  })
+  .catch(() => {
+    document.getElementById("projects").innerHTML =
+      `<div class="error">Failed to load projects </div>`;
+  });
+
+
+  fetch(`${backendUrl}/skills`)
+  .then(res => res.json())
+  .then(data => {
+    document.getElementById("skills").innerHTML = renderSkills(data);
+  })
+  .catch(() => {
+    document.getElementById("skills").innerHTML =
+      `<div class="error">Failed to load skills </div>`;
+  });
+
+
+    function searchProjects() {
+  const query = document.getElementById("searchInput").value.toLowerCase().trim();
+  if (!query) {
+    document.getElementById("projects").innerHTML = renderProjects(allProjects);
+    return;
+  }
+
+  const filtered = allProjects.filter(p =>
+    p.title.toLowerCase().includes(query) ||
+    p.description.toLowerCase().includes(query)
+  );
+
+  document.getElementById("projects").innerHTML = renderProjects(filtered);
+}
+
+  </script>
+</body>
+</html>
