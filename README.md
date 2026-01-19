@@ -152,8 +152,8 @@ Frontend is static and minimal; not a production-ready SPA
 
 - **Live Hosted Project:** [https://me-api-playground-skmz.onrender.com/](https://me-api-playground-skmz.onrender.com/)
 - **GitHub Repository:** [git@github.com:saachi-kandari/me-api-playground.git](git@github.com:saachi-kandari/me-api-playground.git)
-
+- **Resume:** [View Resume](https://drive.google.com/file/d/1JjhXZsRuHaiWcKns9A4-K3wgGzdjvhwW/view?usp=sharing)
 
 ## Author
 **Saachi Kandari**
-Resume: [View Resume](https://drive.google.com/file/d/1JjhXZsRuHaiWcKns9A4-K3wgGzdjvhwW/view?usp=sharing)
+[Resume](https://drive.google.com/file/d/1JjhXZsRuHaiWcKns9A4-K3wgGzdjvhwW/view?usp=sharing)
