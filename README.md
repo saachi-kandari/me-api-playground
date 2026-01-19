@@ -155,4 +155,5 @@ Frontend is static and minimal; not a production-ready SPA
 
 
 ## Author
-Saachi Kandari
+**Saachi Kandari**
+Resume: [View Resume](https://drive.google.com/file/d/1JjhXZsRuHaiWcKns9A4-K3wgGzdjvhwW/view?usp=sharing)
